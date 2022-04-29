@@ -6,21 +6,25 @@ import Pyro5.api
 @expose
 
 # Especifica o comportamento do server
-# Uma única instância será criada e usada para para todas as chamadas de método ("single")
+# Neste caso, uma única instância será criada e usada para para todas as chamadas de método ("single")
 @behavior(instance_mode="single")
 class CounterServer(object):
 
     def __init__(self):
+        # Array que armazena todos os contadores criados
         self.content = []
 
-    # Recebe e printa nome e valor do contador criado
+    # Cria um novo contador a partir do nome e valor fornecidos pelo usuario
+    # Após a criação do contador retorna uma mensagem que indica sua criação 
     def createCounter(self, name, value):
+        # Se o array content estiver vario, cria um novo contador
         if self.content == []:
             self.content.append(Counter(name, value))  
             return f"\n{name} de valor {value} criado."
         
-        # Caso já exista um contador com o mesmo nome, é exibida uma mensagem
-        # Pede novamente nome e valor para criar o contador
+        # Caso o array não esteja vazio, verifica se já existe um contador de mesmo nome
+        # Se existir uma mensagem de erro é retornada 
+        # Se não, então um novo contador é criado
         else:
             for c in self.content:
                 if c.name == name:
@@ -29,25 +33,25 @@ class CounterServer(object):
                     self.content.append(Counter(name, value))  
                     return f"\n{name} de valor {value} criado." 
     
-    # Pede o nome do contador que o usuário deseja incrementar
+    # Incrementa um contador a partir de seu nome
     def incrementCounter(self, name):
         for c in self.content:
 
-            # Caso o nome seja válido, o contador é incrmementado em 1 e nome e o valor atual do contador são exibidos
+            # Caso o nome seja válido, o contador é incremementado em 1 e nome e o valor atual do contador são retornados
             if c.name == name:
                 c.value += 1
                 return f"\n{c.name} incrementado, valor atual: {c.value}."
 
-        # Caso o nome dado não esteja registrado é exibida uma mensagem        
+        # Caso o nome dado não esteja registrado é exibida uma mensagem de erro     
         return "\n[Erro]: não foi possível incrementar, este contador não existe."
 
-    # Exibe o nome e o valor atual do contador
+    # Acessa um contador a partir de seu nome, retornando seu nome e valor atual 
     def getCounter(self, name):
         for c in self.content:
             if c.name == name:
                 return f"\n{c.name}, valor atual: {c.value}."
 
-        # Caso o nome dado não esteja registrado é exibida uma mensagem
+        # Caso o nome dado não esteja registrado é exibida uma mensagem de erro
         return "\n[Erro]: não foi possível acessar, este contador não existe."
 
 # Programa principal

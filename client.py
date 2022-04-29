@@ -1,9 +1,7 @@
 from Pyro5.api import Proxy
 
-# Cria proxy
-# Proxy do pyro para objetos remotos
-# Intercepts method calls and dispatches them to the remote object.
-# Intercepta chamadas de metodos e as ____ para o objeto remoto
+# Cria proxy do Pyro para objetos remotos
+# Intercepta chamadas de metodos e as envia para o objeto remoto
 counterserver = Proxy("PYRONAME:counterserver")
 
 # Cria um loop que fica recebendo valores do usuário
@@ -15,7 +13,7 @@ while True:
         name = input("Digite o nome do contador: ")
         value = int(input("Digite o valor inicial do contador: "))
 
-        # Estabelece a condição que caso o valor inicial do contador deve ser um número inteiro
+        # Estabelece a condição que o valor inicial do contador deve ser um número inteiro
         if (type(value) is int):
             print(counterserver.createCounter(name, value))
         
@@ -23,12 +21,12 @@ while True:
         else:
             print('[Erro]: não foi possível criar, o valor inserido deve ser um número inteiro.')
     
-    # Exibe o nome dado ao contador
+    # Exibe o valor de um determinado contador a partir de seu nome 
     elif menu == 2:
         name = input("Digite o nome do contador a ser acessado: ")
         print(counterserver.getCounter(name))
 
-    # Exibe o valor do contador após ser incrementado
+    # Incrementa o contador e exibe o seu valor após ser incrementado
     elif menu == 3:
         name = input("Digite o nome do contador a ser incrementado: ")
         print(counterserver.incrementCounter(name))
