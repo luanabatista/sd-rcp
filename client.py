@@ -12,13 +12,16 @@ while True:
         else:
             print('[Erro]: não foi possível criar, o valor inserido deve ser um número inteiro.')
     
-    if menu == 2:
+    elif menu == 2:
         name = input("Digite o nome do contador a ser acessado: ")
         print(counterserver.getCounter(name))
 
-    if menu == 3:
+    elif menu == 3:
         name = input("Digite o nome do contador a ser incrementado: ")
         print(counterserver.incrementCounter(name))
 
-    if menu == 4:
+    elif menu == 4:
+        exit(0)
+
+    else:
         exit(0)
